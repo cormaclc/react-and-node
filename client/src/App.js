@@ -6,7 +6,7 @@ class App extends Component {
     state = {
         response: '',
         post: '',
-        responseToPost: '',
+        listOfResponse: [],
     };
 
     componentDidMount() {
@@ -32,7 +32,8 @@ class App extends Component {
             body: JSON.stringify({ post: this.state.post }),
         });
         const body = await response.text();
-        this.setState({ responseToPost: body });
+        this.state.listOfResponse.unshift(body);
+        this.setState({ post: '' });
     };
 
     render() {
@@ -55,7 +56,7 @@ class App extends Component {
         <p>{this.state.response}</p>
         <form onSubmit={this.handleSubmit}>
     <p>
-        <strong>Post to Server:</strong>
+        <strong>Post to Backend Node.js:</strong>
         </p>
         <input
         type="text"
@@ -64,7 +65,9 @@ class App extends Component {
         />
         <button type="submit">Submit</button>
             </form>
-            <p>{this.state.responseToPost}</p>
+                {this.state.listOfResponse.map(resp =>
+                    <p>{resp}</p>
+                )}
         </div>
     );
     }
